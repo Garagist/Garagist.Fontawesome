@@ -1,0 +1,49 @@
+prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        style = ${PropTypes.oneOf(['solid', 'regular', 'light', 'duotone']).isRequired}
+        icon = ${PropTypes.string.isRequired}
+
+        size = ${PropTypes.oneOf(['lg', 'xs', 'sm', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])}
+        fixedWidth = ${PropTypes.boolean}
+        rotate = ${PropTypes.oneOf([90, 180, 270])}
+        flip = ${PropTypes.oneOf(['horizontal', 'vertical', 'both'])}
+        spin = ${PropTypes.boolean}
+        pulse = ${PropTypes.boolean}
+    }
+
+    style = null
+
+    icon = null
+
+    size = null
+    fixedWidth = false
+    rotate = null
+    flip = null
+    spin = false
+    pulse = false
+
+    attributes = Neos.Fusion:Attributes {
+        class = Neos.Fusion:DataStructure
+        aria-hidden = 'true'
+        focusable = 'false'
+        role = 'img'
+    }
+
+    // Internal
+    iconPrefix = 'fa'
+
+    renderer = Neos.Fusion:Augmenter {
+        attributes = ${props.attributes}
+        attributes.class {
+            baseClass = ${'svg-inline--' + props.iconPrefix}
+            size = ${props.size ? props.iconPrefix + '-' + props.size : null}
+            fixedWidth = ${props.fixedWidth ? props.iconPrefix + '-fw' : null}
+            rotate = ${props.rotate ? props.iconPrefix + '-rotate-' + props.rotate : null}
+            flip = ${props.flip ? props.iconPrefix + '-flip-' + props.flip : null}
+            spin = ${props.spin ? props.iconPrefix + '-spin' : null}
+            pulse = ${props.pulse ? props.iconPrefix + '-pulse' : null}
+        }
+        content = ${File.readFile('resource://Garagist.Fontawesome/Private/Icons/' + props.style + '/' + props.icon + '.svg')}
+    }
+}
