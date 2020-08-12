@@ -31,6 +31,55 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         file = ${PropTypes.fileExists.isRequired}
     }
 
+    @styleguide {
+        title = 'Fontawesome Icon'
+        props {
+            style = 'brands'
+            icon = 'neos'
+            size = '10x'
+            fixedWidth = false
+            pull = ''
+            border = false
+            listItem = false
+            inverse = false
+            animation = ''
+            flip = ''
+            swapOpacity = false
+            primaryColor = ''
+            secondaryColor = ''
+        }
+        propSets {
+            'attributes with strings' {
+                attributes {
+                    class = 'neos-icon'
+                    style = 'color:#00adee'
+                }
+            }
+            'attributes with arrays' {
+                attributes {
+                    class = ${['neos-icon', 'neos-icon--brand', null, false]}
+                    style = ${['color:#00adee', 'background:#fff', null, false]}
+                }
+            }
+            'attributes with DataStructure' {
+                attributes {
+                    class = Neos.Fusion:DataStructure {
+                        base = 'neos-icon'
+                        modifier = 'neos-icon--brand'
+                        null = null
+                        false = false
+                    }
+                    style = Neos.Fusion:DataStructure {
+                        color = 'color:#00adee'
+                        background = 'background:#fff'
+                        null = null
+                        false = false
+                    }
+                }
+            }
+        }
+    }
+
     style = null
 
     icon = null
