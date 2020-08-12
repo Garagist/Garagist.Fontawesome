@@ -2,6 +2,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
     @propTypes {
         style = ${PropTypes.oneOf(['solid', 'regular', 'light', 'duotone', 'brands']).isRequired}
         icon = ${PropTypes.string.isRequired}
+        title = ${PropTypes.string}
 
         // CSS Class based
         size = ${PropTypes.oneOf(['lg', 'xs', 'sm', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x'])}
@@ -30,6 +31,8 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
     style = null
 
     icon = null
+
+    title = null
 
     // CSS Class based
     size = null
@@ -85,6 +88,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         @apply {
             attributes = ${props.attributes}
             overwrite = Neos.Fusion:DataStructure {
+                title = ${props.title}
                 class = Neos.Fusion:DataStructure {
                     class = ${Type.isArray(props.attributes.class) ? Array.join(props.attributes.class, ' ') : props.attributes.class}
                     baseClass = ${'svg-inline--' + props.iconPrefix}
