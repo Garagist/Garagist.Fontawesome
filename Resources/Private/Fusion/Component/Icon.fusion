@@ -59,6 +59,12 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
     // Any valid CSS color value
     primaryColor = null 
     secondaryColor = null
+    // Set options only for duotone icons
+    swapOpacity.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
+    primaryOpacity.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
+    secondaryOpacity.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
+    primaryColor.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
+    secondaryColor.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
 
     attributes = Neos.Fusion:DataStructure {
         aria-hidden = 'true'
