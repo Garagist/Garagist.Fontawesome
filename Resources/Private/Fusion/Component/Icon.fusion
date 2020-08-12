@@ -1,49 +1,131 @@
 prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component) {
     @propTypes {
-        @strict = true
-        style = ${PropTypes.oneOf(['solid', 'regular', 'light', 'duotone']).isRequired}
+        style = ${PropTypes.oneOf(['solid', 'regular', 'light', 'duotone', 'brands']).isRequired}
         icon = ${PropTypes.string.isRequired}
 
-        size = ${PropTypes.oneOf(['lg', 'xs', 'sm', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])}
+        // CSS Class based
+        size = ${PropTypes.oneOf(['lg', 'xs', 'sm', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x'])}
         fixedWidth = ${PropTypes.boolean}
+        width = ${PropTypes.oneOf(Array.range(1, 20))}
+        pull = ${PropTypes.oneOf(['left', 'right'])}
+        border = ${PropTypes.boolean}
+        listItem = ${PropTypes.boolean}
+        inverse = ${PropTypes.boolean}
+        swapOpacity = ${PropTypes.boolean}
+        animation = ${PropTypes.oneOf(['spin', 'pulse'])}
+
+        // Style transform based
         rotate = ${PropTypes.oneOf([90, 180, 270])}
         flip = ${PropTypes.oneOf(['horizontal', 'vertical', 'both'])}
-        spin = ${PropTypes.boolean}
-        pulse = ${PropTypes.boolean}
+
+        // For duotone icons
+        primaryOpacity = ${PropTypes.regex('/^(0(\.\d+)?|1(\.0+)?)$/')}
+        secondaryOpacity = ${PropTypes.regex('/^(0(\.\d+)?|1(\.0+)?)$/')}
+        primaryColor = ${PropTypes.string}
+        secondaryColor = ${PropTypes.string}
+
+        file = ${PropTypes.fileExists.isRequired}
     }
 
     style = null
 
     icon = null
 
+    // CSS Class based
     size = null
     fixedWidth = false
+    width = null
+    pull = null
+    border = false
+    listItem = false
+    animation = null
+    inverse = false
+    swapOpacity = false
+
+    // Style transform based
     rotate = null
     flip = null
-    spin = false
-    pulse = false
 
-    attributes = Neos.Fusion:Attributes {
-        class = Neos.Fusion:DataStructure
+    // For duotone icons
+    // Opacity between 0 and 1, e.g. 0.4
+    primaryOpacity = null 
+    secondaryOpacity = null
+    // Any valid CSS color value
+    primaryColor = null 
+    secondaryColor = null
+
+    attributes = Neos.Fusion:DataStructure {
         aria-hidden = 'true'
         focusable = 'false'
         role = 'img'
+        // Can be a string or a DataStructure
+        style = null
+        // Can be a string or a DataStructure
+        class = null
     }
+
+    file = ${'resource://Garagist.Fontawesome/Private/Icons/' + this.style + '/' + this.icon + '.svg'}
 
     // Internal
     iconPrefix = 'fa'
+    styleProps = Neos.Fusion:DataStructure {
+        rotate = Neos.Fusion:DataStructure {
+            90 = 'rotate(90deg)'
+            180 = 'rotate(180deg)'
+            270 = 'rotate(270deg)'
+        }
+        flip = Neos.Fusion:DataStructure {
+            horizontal = 'scale(-1, 1)'
+            vertical = 'scale(1, -1)'
+            both = 'scale(-1, -1)'
+        }
+    }
 
     renderer = Neos.Fusion:Augmenter {
-        attributes = ${props.attributes}
-        attributes.class {
-            baseClass = ${'svg-inline--' + props.iconPrefix}
-            size = ${props.size ? props.iconPrefix + '-' + props.size : null}
-            fixedWidth = ${props.fixedWidth ? props.iconPrefix + '-fw' : null}
-            rotate = ${props.rotate ? props.iconPrefix + '-rotate-' + props.rotate : null}
-            flip = ${props.flip ? props.iconPrefix + '-flip-' + props.flip : null}
-            spin = ${props.spin ? props.iconPrefix + '-spin' : null}
-            pulse = ${props.pulse ? props.iconPrefix + '-pulse' : null}
+        @apply {
+            attributes = ${props.attributes}
+            overwrite = Neos.Fusion:DataStructure {
+                class = Neos.Fusion:DataStructure {
+                    class = ${Type.isArray(props.attributes.class) ? Array.join(props.attributes.class, ' ') : props.attributes.class}
+                    baseClass = ${'svg-inline--' + props.iconPrefix}
+                    size = ${props.size ? props.iconPrefix + '-' + props.size : null}
+                    fixedWidth = ${props.fixedWidth ? props.iconPrefix + '-fw' : null}
+                    width = ${props.width ? props.iconPrefix + '-w-' + props.width : null}
+                    pull = ${props.pull ? props.iconPrefix + '-pull-' + props.pull : null}
+                    border = ${props.border ? props.iconPrefix + '-border' : null}
+                    listItem = ${props.listItem ? props.iconPrefix + '-li' : null}
+                    animation = ${props.animation ? props.iconPrefix + '-' + props.animation : null}
+                    inverse = ${props.inverse ? props.iconPrefix + '-inverse' : null}
+                    swapOpacity = ${props.swapOpacity ? props.iconPrefix + '-swap-opacity' : null}
+                    @process.filter = ${Array.filter(value, item => !!item)}
+                }
+                style = Neos.Fusion:Component {
+                    rotate = ${props.styleProps.rotate[props.rotate]}
+                    flip = ${props.styleProps.flip[props.flip]}
+                    transform = ${[this.rotate, this.flip]}
+                    transform.@process.toString = ${Array.isEmpty(Array.filter(value, item => !!item)) ? null : 'transform:' + Array.join(value, ' ')}
+                    primaryOpacity = ${Type.isNumeric(props.primaryOpacity) ? '--fa-primary-opacity:' + props.primaryOpacity : null}
+                    secondaryOpacity = ${Type.isNumeric(props.secondaryOpacity) ? '--fa-secondary-opacity:' + props.secondaryOpacity : null}
+                    primaryColor = ${props.primaryColor ? '--fa-primary-color:' + props.primaryColor : null}
+                    secondaryColor = ${props.secondaryColor ? '--fa-secondary-color:' + props.secondaryColor : null}
+                    style = ${props.attributes.style}
+
+                    renderer = Neos.Fusion:DataStructure {
+                        transform = ${props.transform}
+                        primaryOpacity= ${props.primaryOpacity}
+                        secondaryOpacity= ${props.secondaryOpacity}
+                        primaryColor= ${props.primaryColor}
+                        secondaryColor= ${props.secondaryColor}
+                        style = ${Type.isArray(props.style) ? Array.join(props.style, ';') : props.style}
+                        @process {
+                            filter = ${Array.filter(value, item => !!item)}
+                            toString = ${Array.isEmpty(value) ? null : Array.join(value, ';')}
+                            removeDoubleSemicolons = ${String.replace(value, ';;', ';')}
+                        }
+                    }
+                }
+            }
         }
-        content = ${File.readFile('resource://Garagist.Fontawesome/Private/Icons/' + props.style + '/' + props.icon + '.svg')}
+        content = ${File.readFile(props.file)}
     }
 }
