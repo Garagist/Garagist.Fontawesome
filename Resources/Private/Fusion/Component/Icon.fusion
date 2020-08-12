@@ -5,23 +5,26 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         title = ${PropTypes.string}
 
         // CSS Class based
-        size = ${PropTypes.oneOf(['lg', 'xs', 'sm', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x'])}
+        size = ${PropTypes.oneOf(['lg', 'xs', 'sm', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', ''])}
         fixedWidth = ${PropTypes.boolean}
-        width = ${PropTypes.oneOf(Array.range(1, 20))}
-        pull = ${PropTypes.oneOf(['left', 'right'])}
+        width = ${PropTypes.oneOf(Array.range(0, 20))}
+        pull = ${PropTypes.oneOf(['left', 'right', ''])}
         border = ${PropTypes.boolean}
         listItem = ${PropTypes.boolean}
         inverse = ${PropTypes.boolean}
-        swapOpacity = ${PropTypes.boolean}
-        animation = ${PropTypes.oneOf(['spin', 'pulse'])}
+        animation = ${PropTypes.oneOf(['spin', 'pulse', ''])}
 
         // Style transform based
-        rotate = ${PropTypes.oneOf([90, 180, 270])}
-        flip = ${PropTypes.oneOf(['horizontal', 'vertical', 'both'])}
+        rotate = ${PropTypes.oneOf([0, 90, 180, 270])}
+        flip = ${PropTypes.oneOf(['horizontal', 'vertical', 'both', ''])}
 
         // For duotone icons
+        swapOpacity = ${PropTypes.boolean}
+        // Opacity between 0 and 1, e.g. 0.4
         primaryOpacity = ${PropTypes.regex('/^(0(\.\d+)?|1(\.0+)?)$/')}
         secondaryOpacity = ${PropTypes.regex('/^(0(\.\d+)?|1(\.0+)?)$/')}
+
+        // Any valid CSS color value
         primaryColor = ${PropTypes.string}
         secondaryColor = ${PropTypes.string}
 
@@ -43,13 +46,13 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
     listItem = false
     animation = null
     inverse = false
-    swapOpacity = false
 
     // Style transform based
     rotate = null
     flip = null
 
     // For duotone icons
+    swapOpacity = false
     // Opacity between 0 and 1, e.g. 0.4
     primaryOpacity = null 
     secondaryOpacity = null
