@@ -93,7 +93,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
             overwrite = Neos.Fusion:DataStructure {
                 title = ${props.title}
                 class = Neos.Fusion:DataStructure {
-                    class = ${Type.isArray(props.attributes.class) ? Array.join(props.attributes.class, ' ') : props.attributes.class}
+                    class = ${Type.isArray(props.attributes.class) ? Array.join(Array.filter(props.attributes.class, item => !!item), ' ') : props.attributes.class}
                     baseClass = ${'svg-inline--' + props.iconPrefix}
                     size = ${props.size ? props.iconPrefix + '-' + props.size : null}
                     fixedWidth = ${props.fixedWidth ? props.iconPrefix + '-fw' : null}
@@ -123,7 +123,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
                         secondaryOpacity= ${props.secondaryOpacity}
                         primaryColor= ${props.primaryColor}
                         secondaryColor= ${props.secondaryColor}
-                        style = ${Type.isArray(props.style) ? Array.join(props.style, ';') : props.style}
+                        style = ${Type.isArray(props.style) ? Array.join(Array.filter(props.style, item => !!item), ';') : props.style}
                         @process {
                             filter = ${Array.filter(value, item => !!item)}
                             toString = ${Array.isEmpty(value) ? null : Array.join(value, ';')}
