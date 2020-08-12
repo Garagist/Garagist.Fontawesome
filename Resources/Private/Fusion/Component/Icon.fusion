@@ -64,9 +64,9 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         aria-hidden = 'true'
         focusable = 'false'
         role = 'img'
-        // Can be a string or a DataStructure
+        // Can be a string, array or a DataStructure
         style = null
-        // Can be a string or a DataStructure
+        // Can be a string, array or a DataStructure
         class = null
     }
 
