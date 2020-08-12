@@ -28,6 +28,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         primaryColor = ${PropTypes.string}
         secondaryColor = ${PropTypes.string}
 
+        iconLocation = ${PropTypes.string.isRequired}
         file = ${PropTypes.fileExists.isRequired}
     }
 
@@ -125,7 +126,8 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         class = null
     }
 
-    file = ${'resource://Garagist.Fontawesome/Private/Icons/' + this.style + '/' + this.icon + '.svg'}
+    iconLocation = ${Configuration.setting('Garagist.Fontawesome.iconLocation')}
+    file = ${'resource://' + this.iconLocation + '/' + this.style + '/' + this.icon + '.svg'}
 
     // Internal
     iconPrefix = 'fa'
