@@ -15,7 +15,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         stackSize = ${PropTypes.oneOf([1, 2])}
 
         // Style transform based
-        rotate = ${PropTypes.oneOf([0, 90, 180, 270])}
+        rotate = ${PropTypes.anyOf(PropTypes.float, PropTypes.integer)}
         flip = ${PropTypes.oneOf(['horizontal', 'vertical', 'both', ''])}
 
         // For duotone icons
@@ -130,17 +130,10 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
 
     // Internal
     iconPrefix = 'fa'
-    styleProps = Neos.Fusion:DataStructure {
-        rotate = Neos.Fusion:DataStructure {
-            90 = 'rotate(90deg)'
-            180 = 'rotate(180deg)'
-            270 = 'rotate(270deg)'
-        }
-        flip = Neos.Fusion:DataStructure {
-            horizontal = 'scale(-1, 1)'
-            vertical = 'scale(1, -1)'
-            both = 'scale(-1, -1)'
-        }
+    flipProps = Neos.Fusion:DataStructure {
+        horizontal = 'scale(-1, 1)'
+        vertical = 'scale(1, -1)'
+        both = 'scale(-1, -1)'
     }
 
     renderer = Neos.Fusion:Augmenter {
@@ -163,8 +156,8 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
                     @process.toString = ${Array.join(Array.filter(value, item => !!item), ' ')}
                 }
                 style = Neos.Fusion:Component {
-                    rotate = ${props.styleProps.rotate[props.rotate]}
-                    flip = ${props.styleProps.flip[props.flip]}
+                    rotate = ${Type.isNumeric(props.rotate) ? 'rotate(' + props.rotate + 'deg)' : null}
+                    flip = ${props.flipProps[props.flip]}
                     transform = ${[this.rotate, this.flip]}
                     transform.@process.toString = ${Array.isEmpty(Array.filter(value, item => !!item)) ? null : 'transform:' + Array.join(value, ' ')}
                     primaryOpacity = ${Type.isNumeric(props.primaryOpacity) ? '--fa-primary-opacity:' + props.primaryOpacity : null}
