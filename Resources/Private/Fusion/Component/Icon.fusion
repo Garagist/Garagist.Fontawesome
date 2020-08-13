@@ -30,6 +30,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
 
         iconLocation = ${PropTypes.string.isRequired}
         file = ${PropTypes.fileExists.isRequired}
+        iconPrefix = ${PropTypes.string.isRequired}
     }
 
     @styleguide {

@@ -1,6 +1,7 @@
 prototype(Garagist.Fontawesome:Component.List) < prototype(Neos.Fusion:Component) {
      @propTypes {
         tagName = ${PropTypes.string.isRequired}
+        iconPrefix = ${PropTypes.string.isRequired}
     }
     @styleguide {
         title = 'Font Awesome Icons in a List'
