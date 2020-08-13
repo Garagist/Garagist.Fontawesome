@@ -161,7 +161,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
                     animation = ${props.animation ? props.iconPrefix + '-' + props.animation : null}
                     inverse = ${props.inverse ? props.iconPrefix + '-inverse' : null}
                     swapOpacity = ${props.swapOpacity ? props.iconPrefix + '-swap-opacity' : null}
-                    @process.filter = ${Array.filter(value, item => !!item)}
+                    @process.toString = ${Array.join(Array.filter(value, item => !!item), ' ')}
                 }
                 style = Neos.Fusion:Component {
                     rotate = ${props.styleProps.rotate[props.rotate]}
