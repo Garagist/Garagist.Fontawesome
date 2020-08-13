@@ -13,6 +13,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         listItem = ${PropTypes.boolean}
         inverse = ${PropTypes.boolean}
         animation = ${PropTypes.oneOf(['spin', 'pulse', ''])}
+        stackSize = ${PropTypes.oneOf([1, 2])}
 
         // Style transform based
         rotate = ${PropTypes.oneOf([0, 90, 180, 270])}
@@ -96,6 +97,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
     listItem = false
     animation = null
     inverse = false
+    stackSize = null
 
     // Style transform based
     rotate = null
@@ -160,6 +162,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
                     listItem = ${props.listItem ? props.iconPrefix + '-li' : null}
                     animation = ${props.animation ? props.iconPrefix + '-' + props.animation : null}
                     inverse = ${props.inverse ? props.iconPrefix + '-inverse' : null}
+                    stackSize = ${props.stackSize ? props.iconPrefix + '-stack-' + props.stackSize + 'x' : null}
                     swapOpacity = ${props.swapOpacity ? props.iconPrefix + '-swap-opacity' : null}
                     @process.toString = ${Array.join(Array.filter(value, item => !!item), ' ')}
                 }

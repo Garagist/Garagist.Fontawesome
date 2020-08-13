@@ -1,0 +1,83 @@
+prototype(Garagist.Fontawesome:Component.Stacked) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        tagName = ${PropTypes.string.isRequired}
+        size = ${PropTypes.oneOf(['lg', 'xs', 'sm', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', ''])}
+    }
+
+    @styleguide {
+        title = 'Stacked Fontawesome Icons'
+        description = 'Stack icons easily with the support styling bundled with Font Awesome.'
+        props {
+            size = '10x'
+            background = Neos.Fusion:DataStructure {
+                stackSize = 2
+                style = 'solid'
+                icon = 'circle'
+            }
+            foreground = Neos.Fusion:DataStructure {
+                inverse = true
+                stackSize = 1
+                style = 'solid'
+                icon = 'flag'
+            }
+        }
+        propSets {
+            colered {
+                size = '10x'
+                background = Neos.Fusion:DataStructure {
+                    stackSize = 1
+                    style = 'solid'
+                    icon = 'camera'
+                }
+                foreground = Neos.Fusion:DataStructure {
+                    stackSize = 2
+                    style = 'solid'
+                    icon = 'ban'
+                    attributes = Neos.Fusion:DataStructure {
+                        aria-hidden = 'true'
+                        focusable = 'false'
+                        role = 'img'
+                        style = 'color:Tomato'
+                    }
+                }
+            }
+        }
+    }
+
+    tagName = 'span'
+    size = null
+
+    background = Neos.Fusion:DataStructure {
+        stackSize = 2
+    }
+    foreground = Neos.Fusion:DataStructure {
+        inverse = true
+        stackSize = 1
+    }
+
+    attributes = Neos.Fusion:Attributes {
+        // Can be a string, array or a DataStructure
+        style = null
+        // Can be a string, array or a DataStructure
+        class = null
+    }
+
+    // Internal
+    iconPrefix = 'fa'
+    @if.hasStackSize = ${this.background.stackSize && this.foreground.stackSize}
+
+    renderer = Neos.Fusion:Augmenter {
+        class = Neos.Fusion:DataStructure {
+            base = ${props.iconPrefix + '-stack'}
+            size = ${props.size ? props.iconPrefix + '-' + props.size : null}
+            @process.toString = ${Array.join(Array.filter(value, item => !!item), ' ')}
+        }
+        content = Neos.Fusion:Tag {
+            attributes = ${props.attributes}
+            content = afx`
+                <Garagist.Fontawesome:Component.Icon @key='background' {...props.background} />
+                <Garagist.Fontawesome:Component.Icon @key='foreground' {...props.foreground} />
+            `
+        }
+    }
+}
