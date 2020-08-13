@@ -1,0 +1,75 @@
+prototype(Garagist.Fontawesome:Component.List) < prototype(Neos.Fusion:Component) {
+     @propTypes {
+        tagName = ${PropTypes.string.isRequired}
+    }
+    @styleguide {
+        title = 'Fontawesome Icons in a List'
+        props {
+            tagName = 'ol'
+            items = Neos.Fusion:DataStructure {
+                1 = Neos.Fusion:DataStructure {
+                    icon = Neos.Fusion:DataStructure {
+                        style = 'solid'
+                        icon = 'check-square'
+                    }
+                    content = 'List icons can'
+                }
+                2 = Neos.Fusion:DataStructure {
+                    icon = Neos.Fusion:DataStructure {
+                        style = 'solid'
+                        icon = 'check-square'
+                    }
+                    content = 'be used to'
+                }
+                3 = Neos.Fusion:DataStructure {
+                    icon = Neos.Fusion:DataStructure {
+                        style = 'solid'
+                        icon = 'spinner'
+                        animation = 'pulse'
+                    }
+                    content = 'replace bullets'
+                }
+                4 = Neos.Fusion:DataStructure {
+                    icon = Neos.Fusion:DataStructure {
+                        style = 'regular'
+                        icon = 'square'
+                    }
+                    content = 'in lists'
+                }
+            }
+        }
+    }
+
+    tagName = 'ul'
+    items = null
+
+    attributes = Neos.Fusion:Attributes {
+        // Can be a string, array or a DataStructure
+        style = null
+        // Can be a string, array or a DataStructure
+        class = null
+    }
+
+    // Internal
+    iconPrefix = 'fa'
+    @if.hasItems = ${Type.isArray(this.items) && Array.length(this.items)}
+
+     renderer = Neos.Fusion:Augmenter {
+        class = ${props.iconPrefix + '-ul'}
+        content = Neos.Fusion:Tag {
+            tagName = ${props.tagName}
+            attributes = ${props.attributes}
+            content = Neos.Fusion:Loop {
+                items = ${props.items}
+                itemRenderer = afx`
+                    <li>
+                        <span class={props.iconPrefix + '-li'}>
+                            <Garagist.Fontawesome:Component.Icon {...item.icon} />
+                        </span>
+                        {item.content}
+                    </li>
+                `
+            }
+        }
+    }
+}

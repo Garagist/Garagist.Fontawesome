@@ -10,7 +10,6 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         width = ${PropTypes.oneOf(Array.range(0, 20))}
         pull = ${PropTypes.oneOf(['left', 'right', ''])}
         border = ${PropTypes.boolean}
-        listItem = ${PropTypes.boolean}
         inverse = ${PropTypes.boolean}
         animation = ${PropTypes.oneOf(['spin', 'pulse', ''])}
         stackSize = ${PropTypes.oneOf([1, 2])}
@@ -35,6 +34,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
 
     @styleguide {
         title = 'Fontawesome Icon'
+        description = 'List icons can be used to replace bullets in lists'
         props {
             style = 'brands'
             icon = 'neos'
@@ -42,7 +42,6 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
             fixedWidth = false
             pull = ''
             border = false
-            listItem = false
             inverse = false
             animation = ''
             flip = ''
@@ -94,7 +93,6 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
     width = null
     pull = null
     border = false
-    listItem = false
     animation = null
     inverse = false
     stackSize = null
@@ -159,7 +157,6 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
                     width = ${props.width ? props.iconPrefix + '-w-' + props.width : null}
                     pull = ${props.pull ? props.iconPrefix + '-pull-' + props.pull : null}
                     border = ${props.border ? props.iconPrefix + '-border' : null}
-                    listItem = ${props.listItem ? props.iconPrefix + '-li' : null}
                     animation = ${props.animation ? props.iconPrefix + '-' + props.animation : null}
                     inverse = ${props.inverse ? props.iconPrefix + '-inverse' : null}
                     stackSize = ${props.stackSize ? props.iconPrefix + '-stack-' + props.stackSize + 'x' : null}
