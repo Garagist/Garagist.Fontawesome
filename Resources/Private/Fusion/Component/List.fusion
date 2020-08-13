@@ -56,7 +56,7 @@ prototype(Garagist.Fontawesome:Component.List) < prototype(Neos.Fusion:Component
     iconPrefix = 'fa'
     @if.hasItems = ${Type.isArray(this.items) && Array.length(this.items)}
 
-     renderer = Neos.Fusion:Augmenter {
+    renderer = Neos.Fusion:Augmenter {
         class = ${props.iconPrefix + '-ul'}
         content = Neos.Fusion:Tag {
             tagName = ${props.tagName}
