@@ -74,6 +74,7 @@ prototype(Garagist.Fontawesome:Component.Stacked) < prototype(Neos.Fusion:Compon
             @process.toString = ${Array.join(Array.filter(value, item => !!item), ' ')}
         }
         content = Neos.Fusion:Tag {
+            tagName = ${props.tagName}
             attributes = ${props.attributes}
             content = afx`
                 <Garagist.Fontawesome:Component.Icon @key='background' {...props.background} />
