@@ -1,0 +1,10 @@
+Sitegeist:
+  Monocle:
+    ui:
+      structure:
+        'Garagist.Fontawesome':
+          position: 1000
+          match: Garagist.Fontawesome
+          label: 'Font Awesome'
+          icon: icon-flag
+          color: '#339af0'
