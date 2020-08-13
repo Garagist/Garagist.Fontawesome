@@ -4,6 +4,7 @@ prototype(Garagist.Fontawesome:Component.List) < prototype(Neos.Fusion:Component
     }
     @styleguide {
         title = 'Fontawesome Icons in a List'
+        description = 'List icons can be used to replace bullets in lists'
         props {
             tagName = 'ol'
             items = Neos.Fusion:DataStructure {

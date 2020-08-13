@@ -34,7 +34,6 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
 
     @styleguide {
         title = 'Fontawesome Icon'
-        description = 'List icons can be used to replace bullets in lists'
         props {
             style = 'brands'
             icon = 'neos'
