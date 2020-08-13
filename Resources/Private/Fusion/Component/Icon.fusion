@@ -33,7 +33,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
     }
 
     @styleguide {
-        title = 'Fontawesome Icon'
+        title = 'Font Awesome Icon'
         props {
             style = 'brands'
             icon = 'neos'

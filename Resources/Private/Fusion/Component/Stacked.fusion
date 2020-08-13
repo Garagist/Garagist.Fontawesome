@@ -5,7 +5,7 @@ prototype(Garagist.Fontawesome:Component.Stacked) < prototype(Neos.Fusion:Compon
     }
 
     @styleguide {
-        title = 'Stacked Fontawesome Icons'
+        title = 'Stacked Font Awesome Icons'
         description = 'Stack icons easily with the support styling bundled with Font Awesome.'
         props {
             size = '10x'
