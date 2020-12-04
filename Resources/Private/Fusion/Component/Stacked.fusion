@@ -71,7 +71,7 @@ prototype(Garagist.Fontawesome:Component.Stacked) < prototype(Neos.Fusion:Compon
         class = Neos.Fusion:DataStructure {
             base = ${props.iconPrefix + '-stack'}
             size = ${props.size ? props.iconPrefix + '-' + props.size : null}
-            @process.toString = ${Array.join(Array.filter(value, item => !!item), ' ')}
+            @process.toString = ${Type.isArray(value) ? Array.join(Array.filter(value, item => !!item), ' ') : value}
         }
         content = Neos.Fusion:Tag {
             tagName = ${props.tagName}
