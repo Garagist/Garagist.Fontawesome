@@ -3,7 +3,10 @@
     "description": "Inline Fontawesome Icons into Neos", 
     "type": "neos-plugin",
     "license": "GPL-3.0-or-later",
-    "suggest": {		
+    "require": {
+        "neos/neos": "^7.3.0 || ^8.0.0"
+    },
+    "suggest": {
         "packagefactory/atomicfusion-proptypes": "Validate the props passed to a component via @propType annotation"		
     },
     "autoload": {

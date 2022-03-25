@@ -1,0 +1,14 @@
+{
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "postcss Resources/Private/Assets/*.pcss --no-map --ext css --dir Resources/Public/Styles/",
+    "watch": "postcss Resources/Private/Assets/*.pcss --no-map --ext css --dir Resources/Public/Styles/ -w"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.2",
+    "cssnano": "^5.0.17",
+    "postcss": "^8.4.6",
+    "postcss-cli": "^9.1.0"
+  }
+}
