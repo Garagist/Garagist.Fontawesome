@@ -1,17 +1,16 @@
 prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component) {
     @propTypes {
-        style = ${PropTypes.oneOf(['solid', 'regular', 'light', 'duotone', 'brands']).isRequired}
+        style = ${PropTypes.oneOf(['brands', 'duotone', 'light', 'regular', 'solid', 'thin']).isRequired}
         icon = ${PropTypes.string.isRequired}
         title = ${PropTypes.string}
 
         // CSS Class based
-        size = ${PropTypes.oneOf(['lg', 'xs', 'sm', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', ''])}
+        size = ${PropTypes.oneOf(['2xs', 'xs', 'sm', 'lg', 'xl', '2xl', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', ''])}
         fixedWidth = ${PropTypes.boolean}
-        width = ${PropTypes.oneOf(Array.range(0, 20))}
         pull = ${PropTypes.oneOf(['left', 'right', ''])}
         border = ${PropTypes.boolean}
         inverse = ${PropTypes.boolean}
-        animation = ${PropTypes.oneOf(['spin', 'pulse', ''])}
+        animation = ${PropTypes.oneOf(['beat', 'bounce', 'fade', 'beat-fade', 'flip', 'shake', 'spin', 'spin-reverse', 'spin-pulse', ''])}
         stackSize = ${PropTypes.oneOf([1, 2])}
 
         // Style transform based
@@ -90,7 +89,6 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
     // CSS Class based
     size = null
     fixedWidth = false
-    width = null
     pull = null
     border = false
     animation = null
@@ -147,7 +145,6 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
                     baseClass = ${'svg-inline--' + props.iconPrefix}
                     size = ${props.size ? props.iconPrefix + '-' + props.size : null}
                     fixedWidth = ${props.fixedWidth ? props.iconPrefix + '-fw' : null}
-                    width = ${props.width ? props.iconPrefix + '-w-' + props.width : null}
                     pull = ${props.pull ? props.iconPrefix + '-pull-' + props.pull : null}
                     border = ${props.border ? props.iconPrefix + '-border' : null}
                     animation = ${props.animation ? props.iconPrefix + '-' + props.animation : null}

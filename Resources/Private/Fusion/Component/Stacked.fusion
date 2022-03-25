@@ -1,7 +1,7 @@
 prototype(Garagist.Fontawesome:Component.Stacked) < prototype(Neos.Fusion:Component) {
     @propTypes {
         tagName = ${PropTypes.string.isRequired}
-        size = ${PropTypes.oneOf(['lg', 'xs', 'sm', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', ''])}
+        size = ${PropTypes.oneOf(['2xs', 'xs', 'sm', 'lg', 'xl', '2xl', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', ''])}
         iconPrefix = ${PropTypes.string.isRequired}
     }
 

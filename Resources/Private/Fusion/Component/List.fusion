@@ -1,6 +1,6 @@
 prototype(Garagist.Fontawesome:Component.List) < prototype(Neos.Fusion:Component) {
      @propTypes {
-        tagName = ${PropTypes.string.isRequired}
+        tagName = ${PropTypes.oneOf(['ul', 'ol']).isRequired}
         iconPrefix = ${PropTypes.string.isRequired}
     }
     @styleguide {
