@@ -59,7 +59,7 @@ prototype(Garagist.Fontawesome:Component.Stacked) < prototype(Neos.Fusion:Compon
         stackSize = 1
     }
 
-    attributes = Neos.Fusion:Attributes {
+    attributes = Neos.Fusion:DataStructure {
         // Can be a string, array or a DataStructure
         style = null
         // Can be a string, array or a DataStructure
@@ -70,19 +70,17 @@ prototype(Garagist.Fontawesome:Component.Stacked) < prototype(Neos.Fusion:Compon
     iconPrefix = 'fa'
     @if.hasStackSize = ${this.background.stackSize && this.foreground.stackSize}
 
-    renderer = Neos.Fusion:Augmenter {
-        class = Neos.Fusion:DataStructure {
-            base = ${props.iconPrefix + '-stack'}
-            size = ${props.size ? props.iconPrefix + '-' + props.size : null}
-            @process.toString = ${Type.isArray(value) ? Array.join(Array.filter(value, item => !!item), ' ') : value}
+    renderer = Neos.Fusion:Tag {
+        tagName = ${props.tagName}
+        attributes = Neos.Fusion:DataStructure {
+            @apply.props = ${props.attributes}
+            @apply.class = Neos.Fusion:DataStructure {
+                class = ${Carbon.String.merge(props.iconPrefix + '-stack', props.size ? props.iconPrefix + '-' + props.size : null, props.attributes.class)}
+            }
         }
-        content = Neos.Fusion:Tag {
-            tagName = ${props.tagName}
-            attributes = ${props.attributes}
-            content = afx`
-                <Garagist.Fontawesome:Component.Icon @key='background' {...props.background} />
-                <Garagist.Fontawesome:Component.Icon @key='foreground' {...props.foreground} />
-            `
-        }
+        content = afx`
+            <Garagist.Fontawesome:Component.Icon @key='background' {...props.background} />
+            <Garagist.Fontawesome:Component.Icon @key='foreground' {...props.foreground} />
+        `
     }
 }

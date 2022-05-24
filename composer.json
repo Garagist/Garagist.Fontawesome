@@ -1,13 +1,14 @@
 {
     "name": "garagist/fontawesome",
-    "description": "Inline Fontawesome Icons into Neos", 
+    "description": "Inline Fontawesome Icons into Neos",
     "type": "neos-plugin",
     "license": "GPL-3.0-or-later",
     "require": {
-        "neos/neos": "^7.3.0 || ^8.0.0"
+        "neos/neos": "^7.3.0 || ^8.0.0",
+        "carbon/eel": "^2.2.1"
     },
     "suggest": {
-        "packagefactory/atomicfusion-proptypes": "Validate the props passed to a component via @propType annotation"		
+        "packagefactory/atomicfusion-proptypes": "Validate the props passed to a component via @propType annotation"
     },
     "autoload": {
         "psr-4": {

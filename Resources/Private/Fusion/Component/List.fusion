@@ -27,7 +27,7 @@ prototype(Garagist.Fontawesome:Component.List) < prototype(Neos.Fusion:Component
                     icon = Neos.Fusion:DataStructure {
                         style = 'solid'
                         icon = 'spinner'
-                        animation = 'pulse'
+                        animation = 'spin-pulse'
                     }
                     content = 'replace bullets'
                 }
@@ -45,7 +45,7 @@ prototype(Garagist.Fontawesome:Component.List) < prototype(Neos.Fusion:Component
     tagName = 'ul'
     items = null
 
-    attributes = Neos.Fusion:Attributes {
+    attributes = Neos.Fusion:DataStructure {
         // Can be a string, array or a DataStructure
         style = null
         // Can be a string, array or a DataStructure
@@ -54,24 +54,26 @@ prototype(Garagist.Fontawesome:Component.List) < prototype(Neos.Fusion:Component
 
     // Internal
     iconPrefix = 'fa'
-    @if.hasItems = ${Type.isArray(this.items) && Array.length(this.items)}
+    @if.hasItems = ${Carbon.Array.check(this.items)}
 
-    renderer = Neos.Fusion:Augmenter {
-        class = ${props.iconPrefix + '-ul'}
-        content = Neos.Fusion:Tag {
-            tagName = ${props.tagName}
-            attributes = ${props.attributes}
-            content = Neos.Fusion:Loop {
-                items = ${props.items}
-                itemRenderer = afx`
-                    <li>
-                        <span class={props.iconPrefix + '-li'}>
-                            <Garagist.Fontawesome:Component.Icon {...item.icon} />
-                        </span>
-                        {item.content}
-                    </li>
-                `
+    renderer = Neos.Fusion:Tag {
+        tagName = ${props.tagName}
+        attributes = Neos.Fusion:DataStructure {
+            @apply.props = ${props.attributes}
+            @apply.class = Neos.Fusion:DataStructure {
+                class = ${Carbon.String.merge(props.iconPrefix + '-ul', props.attributes.class)}
             }
+        }
+        content = Neos.Fusion:Loop {
+            items = ${props.items}
+            itemRenderer = afx`
+                <li>
+                    <span class={props.iconPrefix + '-li'}>
+                        <Garagist.Fontawesome:Component.Icon {...item.icon} />
+                    </span>
+                    {item.content}
+                </li>
+            `
         }
     }
 }
