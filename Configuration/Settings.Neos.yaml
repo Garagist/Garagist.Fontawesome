@@ -3,3 +3,6 @@ Neos:
     fusion:
       autoInclude:
         Garagist.Fontawesome: true
+  Fusion:
+    defaultContext:
+      Garagist.Fontawesome: 'Garagist\Fontawesome\EelHelper\IconHelper'

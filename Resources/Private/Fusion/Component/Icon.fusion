@@ -27,8 +27,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         primaryColor = ${PropTypes.string}
         secondaryColor = ${PropTypes.string}
 
-        iconLocation = ${PropTypes.string.isRequired}
-        file = ${PropTypes.fileExists.isRequired}
+        content = ${PropTypes.string}
         iconPrefix = ${PropTypes.string.isRequired}
     }
 
@@ -102,10 +101,10 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
     // For duotone icons
     swapOpacity = false
     // Opacity between 0 and 1, e.g. 0.4
-    primaryOpacity = null 
+    primaryOpacity = null
     secondaryOpacity = null
     // Any valid CSS color value
-    primaryColor = null 
+    primaryColor = null
     secondaryColor = null
     // Set options only for duotone icons
     swapOpacity.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
@@ -124,8 +123,7 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         class = null
     }
 
-    iconLocation = ${Configuration.setting('Garagist.Fontawesome.iconLocation')}
-    file = ${'resource://' + this.iconLocation + '/' + this.style + '/' + this.icon + '.svg'}
+    content = ${Garagist.Fontawesome.file(this.style, this.icon)}
 
     // Internal
     iconPrefix = 'fa'
@@ -134,6 +132,8 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         vertical = 'scale(1, -1)'
         both = 'scale(-1, -1)'
     }
+
+    @if.hasContent = ${this.content}
 
     renderer = Neos.Fusion:Augmenter {
         @apply {
@@ -180,6 +180,6 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
                 }
             }
         }
-        content = ${File.readFile(props.file)}
+        content = ${props.content}
     }
 }
