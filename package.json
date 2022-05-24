@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "postcss Resources/Private/Assets/*.pcss --no-map --ext css --dir Resources/Public/Styles/",
-    "watch": "postcss Resources/Private/Assets/*.pcss --no-map --ext css --dir Resources/Public/Styles/ -w"
+    "watch": "postcss Resources/Private/Assets/*.pcss --no-map --ext css --dir Resources/Public/Styles/ -w",
+    "pipeline": "pnpm install; pnpm build"
   },
   "dependencies": {
     "autoprefixer": "^10.4.7",
