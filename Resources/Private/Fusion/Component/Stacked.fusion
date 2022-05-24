@@ -22,23 +22,26 @@ prototype(Garagist.Fontawesome:Component.Stacked) < prototype(Neos.Fusion:Compon
                 icon = 'flag'
             }
         }
-        propSets {
-            colered {
-                size = '10x'
-                background = Neos.Fusion:DataStructure {
-                    stackSize = 1
-                    style = 'solid'
-                    icon = 'camera'
-                }
-                foreground = Neos.Fusion:DataStructure {
-                    stackSize = 2
-                    style = 'solid'
-                    icon = 'ban'
-                    attributes = Neos.Fusion:DataStructure {
-                        aria-hidden = 'true'
-                        focusable = 'false'
-                        role = 'img'
-                        style = 'color:Tomato'
+        useCases {
+            colored {
+                title = 'Colored, stacked icon'
+                props {
+                    size = '10x'
+                    background = Neos.Fusion:DataStructure {
+                        stackSize = 1
+                        style = 'solid'
+                        icon = 'camera'
+                    }
+                    foreground = Neos.Fusion:DataStructure {
+                        stackSize = 2
+                        style = 'solid'
+                        icon = 'ban'
+                        attributes = Neos.Fusion:DataStructure {
+                            aria-hidden = 'true'
+                            focusable = 'false'
+                            role = 'img'
+                            style = 'color:Tomato'
+                        }
                     }
                 }
             }
