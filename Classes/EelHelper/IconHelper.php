@@ -5,6 +5,13 @@ namespace Garagist\Fontawesome\EelHelper;
 use Neos\Eel\ProtectedContextAwareInterface;
 use Neos\Flow\Annotations as Flow;
 use Symfony\Component\Yaml\Yaml;
+use function array_keys;
+use function file_exists;
+use function file_get_contents;
+use function in_array;
+use function preg_replace;
+use function sprintf;
+use function strtolower;
 
 class IconHelper implements ProtectedContextAwareInterface
 {
@@ -36,6 +43,30 @@ class IconHelper implements ProtectedContextAwareInterface
     }
 
     /**
+     * Get list of icons
+     *
+     * @return array
+     */
+    public function list(): array
+    {
+        return array_keys($this->getIconsYaml());
+    }
+
+    /**
+     * Get parsed icon yaml file
+     *
+     * @return array
+     */
+    private function getIconsYaml(): array
+    {
+        $filePath = sprintf('resource://%s/icons.yml', $this->iconLocation);
+        if (!file_exists($filePath)) {
+            return [];
+        }
+        return Yaml::parseFile($filePath);
+    }
+
+    /**
      * Get the name of an icon from an alias
      *
      * @param string $alias
@@ -43,11 +74,7 @@ class IconHelper implements ProtectedContextAwareInterface
      */
     private function getNameFromAlias(string $alias): ?string
     {
-        $filePath = sprintf('resource://%s/icons.yml', $this->iconLocation);
-        if (!file_exists($filePath)) {
-            return null;
-        }
-        $icons = Yaml::parseFile($filePath);
+        $icons = $this->getIconsYaml();
 
         // Try to get the icon with an alias name
         foreach ($icons as $key => $value) {
