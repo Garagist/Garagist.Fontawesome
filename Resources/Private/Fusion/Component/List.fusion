@@ -43,13 +43,13 @@ prototype(Garagist.Fontawesome:Component.List) < prototype(Neos.Fusion:Component
     }
 
     tagName = 'ul'
-    items = null
+    items = ${null}
 
     attributes = Neos.Fusion:DataStructure {
         // Can be a string, array or a DataStructure
-        style = null
+        style = ${null}
         // Can be a string, array or a DataStructure
-        class = null
+        class = ${null}
     }
 
     // Internal
