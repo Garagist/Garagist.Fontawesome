@@ -1,6 +1,6 @@
 prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component) {
     @propTypes {
-        style = ${PropTypes.oneOf(['brands', 'duotone', 'light', 'regular', 'solid', 'thin']).isRequired}
+        style = ${PropTypes.oneOf(['brands', 'duotone', 'light', 'regular', 'sharp-solid', 'solid', 'thin']).isRequired}
         icon = ${PropTypes.string.isRequired}
         title = ${PropTypes.string}
 
