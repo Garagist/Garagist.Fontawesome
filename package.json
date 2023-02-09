@@ -2,14 +2,16 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
+    "iconList": "node iconList.mjs",
     "build": "postcss Resources/Private/Assets/*.pcss --no-map --ext css --dir Resources/Public/Styles/",
     "watch": "postcss Resources/Private/Assets/*.pcss --no-map --ext css --dir Resources/Public/Styles/ -w",
     "pipeline": "pnpm install; pnpm build"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.7",
-    "cssnano": "^5.1.9",
-    "postcss": "^8.4.14",
-    "postcss-cli": "^9.1.0"
+    "autoprefixer": "^10.4.13",
+    "cssnano": "^5.1.14",
+    "postcss": "^8.4.21",
+    "postcss-cli": "^10.1.0",
+    "yaml": "^2.2.1"
   }
 }
