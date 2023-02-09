@@ -5,7 +5,7 @@
     "iconList": "node iconList.mjs",
     "build": "postcss Resources/Private/Assets/*.pcss --no-map --ext css --dir Resources/Public/Styles/",
     "watch": "postcss Resources/Private/Assets/*.pcss --no-map --ext css --dir Resources/Public/Styles/ -w",
-    "pipeline": "pnpm install; pnpm build"
+    "pipeline": "pnpm install; pnpm iconList && pnpm build"
   },
   "dependencies": {
     "autoprefixer": "^10.4.13",
