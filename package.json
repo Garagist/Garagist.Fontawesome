@@ -8,8 +8,8 @@
     "pipeline": "pnpm install; pnpm iconList && pnpm build"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.13",
-    "cssnano": "^5.1.14",
+    "autoprefixer": "^10.4.14",
+    "cssnano": "^6.0.0",
     "postcss": "^8.4.21",
     "postcss-cli": "^10.1.0",
     "yaml": "^2.2.1"
