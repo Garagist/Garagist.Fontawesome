@@ -44,6 +44,12 @@ class FontAwesomeDataSource extends AbstractDataSource
         'brands',
     ];
 
+
+    /**
+     * @var array
+     */
+    protected $options = [];
+
     /**
      * @param array $identifiers
      * @param NodeInterface|null $node
@@ -52,7 +58,7 @@ class FontAwesomeDataSource extends AbstractDataSource
      */
     protected function getDataForIdentifiers(array $identifiers, NodeInterface $node = null, array $arguments = [])
     {
-        $options = [];
+        $this->options = [];
         $enabledStyles = $arguments['styles'] ?? self::STYLES;
         $enableGroup = count($enabledStyles) > 1;
         $metadata = $this->iconService->getMetadata();
@@ -62,16 +68,11 @@ class FontAwesomeDataSource extends AbstractDataSource
                 if (!in_array($style, $enabledStyles)) {
                     continue;
                 }
-                $options[sprintf('%s__%s', $style, $name)] = [
-                    'value' => sprintf('%s:%s', $style, $name),
-                    'label' => $data['label'],
-                    'group' => $enableGroup ? ucfirst($style) : null,
-                    'preview' => $this->previewSvg($style, $name),
-                ];
+                $this->addOption($style, $name, $data, $enableGroup);
             }
         }
 
-        return $options;
+        return $this->options;
     }
 
     /**
@@ -82,35 +83,72 @@ class FontAwesomeDataSource extends AbstractDataSource
      */
     protected function searchData(string $searchTerm, NodeInterface $node = null, array $arguments = [])
     {
-        $options = [];
+        $this->options = [];
         $enabledStyles = $arguments['styles'] ?? self::STYLES;
         $enableGroup = count($enabledStyles) > 1;
         $metadata = $this->iconService->getMetadata();
 
+        // First, we look if the text is in the label
         foreach ($metadata as $name => $data) {
             foreach ($data['styles'] as $style) {
                 if (!in_array($style, $enabledStyles)) {
                     continue;
                 }
-                $haystack = $data['label'] . ' ' . implode(' ', $data['search']['terms']);
 
+                if (stripos($data['label'], $searchTerm) === false) {
+                    continue;
+                }
+
+                $this->addOption($style, $name, $data, $enableGroup);
+            }
+        }
+
+        // New we look also into the search terms
+        foreach ($metadata as $name => $data) {
+            foreach ($data['styles'] as $style) {
+                if (!in_array($style, $enabledStyles)) {
+                    continue;
+                }
+
+                // Is the icon already in the list?
+                if (isset($options[$style . ':' . $name])) {
+                    continue;
+                }
+
+                $haystack = implode(' ', $data['search']['terms']);
                 if (stripos($haystack, $searchTerm) === false) {
                     continue;
                 }
 
-                $options[sprintf('%s__%s', $style, $name)] = [
-                    'value' => sprintf('%s:%s', $style, $name),
-                    'label' => $data['label'],
-                    'group' => $enableGroup ? ucfirst($style) : null,
-                    'preview' => $this->previewSvg($style, $name),
-                ];
+                $this->addOption($style, $name, $data, $enableGroup);
             }
         }
 
+        return $this->options;
+    }
 
-        // $options = [];
-        // $options['key'] = ['label' => 'My Label ' . $searchTerm];
-        return $options;
+    /**
+     * Add option to the options array
+     *
+     * @param string $style
+     * @param string $name
+     * @param boolean $enableGroup
+     * @return void
+     */
+    private function addOption(string $style, string $name, array $data, bool $enableGroup)
+    {
+        $value = $style . ':' . $name;
+
+        // Is the icon already in the list?
+        if (isset($options[$value])) {
+            return;
+        }
+
+        $this->options[$value] = [
+            'label' => $data['label'],
+            'group' => $enableGroup ? ucfirst($style) : null,
+            'preview' => $this->previewSvg($style, $name),
+        ];
     }
 
 
