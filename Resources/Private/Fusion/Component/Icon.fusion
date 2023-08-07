@@ -79,9 +79,14 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         }
     }
 
+    styleAndIcon = null
+    styleAndIcon.@process.split = ${value ? String.split(value, ':') : null}
+
     style = ${null}
+    style.@process.styleAndIcon = ${value || (this.styleAndIcon ? Array.first(this.styleAndIcon) : null)}
 
     icon = ${null}
+    icon.@process.styleAndIcon = ${value || (this.styleAndIcon ? Array.last(this.styleAndIcon) : null)}
 
     title = ${null}
 
