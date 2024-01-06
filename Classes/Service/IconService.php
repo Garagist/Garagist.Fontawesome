@@ -3,7 +3,6 @@
 namespace Garagist\Fontawesome\Service;
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\ResourceManagement\PersistentResource;
 use Neos\Flow\ResourceManagement\ResourceManager;
 use Symfony\Component\Yaml\Yaml;
 use function array_keys;
