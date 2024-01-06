@@ -3,6 +3,8 @@
 namespace Garagist\Fontawesome\Service;
 
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\ResourceManagement\PersistentResource;
+use Neos\Flow\ResourceManagement\ResourceManager;
 use Symfony\Component\Yaml\Yaml;
 use function array_keys;
 use function file_exists;
@@ -27,6 +29,18 @@ class IconService
     protected $iconLocation;
 
     /**
+     * @Flow\InjectConfiguration(package="Garagist.Fontawesome", path="settingsLocation")
+     * @var string
+     */
+    protected $settingsLocation;
+
+    /**
+     * @Flow\Inject
+     * @var ResourceManager
+     */
+    protected $resourceManager;
+
+    /**
      * Get the icon content
      *
      * @param string|null $style
@@ -48,6 +62,26 @@ class IconService
     }
 
     /**
+     * Get the icon path
+     *
+     * @param string|null $style
+     * @param string|null $icon
+     * @return string|null
+     */
+    public function path(string $style, ?string $icon = null): ?string
+    {
+        $iconPath = $this->resourcePath($style, $icon);
+
+        if (!isset($iconPath)) {
+            return null;
+        }
+        preg_match('#^resource://([^/]+)/Public/(.*)#', $iconPath, $matches);
+        $package = $matches[1];
+        $path = $matches[2];
+        return $this->resourceManager->getPublicPackageResourceUri($package, $path);
+    }
+
+    /**
      * Get list of icons
      *
      * @return array
@@ -64,7 +98,7 @@ class IconService
      */
     public function getMetadata(): array
     {
-        $filePath = sprintf('resource://%s/icons.yml', $this->iconLocation);
+        $filePath = sprintf('resource://%s', $this->settingsLocation);
         if (!file_exists($filePath)) {
             return [];
         }
@@ -91,6 +125,27 @@ class IconService
     }
 
     /**
+     * Get the icon resource path
+     *
+     * @param string|null $style
+     * @param string|null $icon
+     * @return string|null
+     */
+    public function resourcePath(string $style, ?string $icon = null): ?string
+    {
+        if (!isset($style) || !isset($icon)) {
+            return null;
+        }
+        $style = strtolower($style);
+        $icon = strtolower($icon);
+        $iconPath = sprintf('resource://%s/%s/%s.svg', $this->iconLocation, $style, $icon);
+        if (!file_exists($iconPath)) {
+            return null;
+        }
+        return $iconPath;
+    }
+
+    /**
      * Return the content of an icon
      *
      * @param string $style
@@ -99,11 +154,9 @@ class IconService
      */
     private function getIconContent(string $style, ?string $icon = null): ?string
     {
-        if (!isset($icon)) {
-            return null;
-        }
-        $iconPath = sprintf('resource://%s/%s/%s.svg', $this->iconLocation, $style, $icon);
-        if (!file_exists($iconPath)) {
+        $iconPath = $this->resourcePath($style, $icon);
+
+        if (!isset($iconPath)) {
             return null;
         }
 

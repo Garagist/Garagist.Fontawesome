@@ -31,3 +31,8 @@
             #     - 'sharp-light'
             #     - 'duotone'
             #     - 'brands'
+            #
+            # If you want to preset a search (e.g. to only show icons who match the term "down"), you can do it like this:
+            # Seperate multiple search terms with a space to search for multiple terms at once.
+            # dataSourceAdditionalData:
+            #   searchPreset: 'down'

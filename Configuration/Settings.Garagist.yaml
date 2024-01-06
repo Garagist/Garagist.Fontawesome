@@ -1,3 +1,4 @@
 Garagist:
   Fontawesome:
-    iconLocation: Garagist.Fontawesome/Private/Icons
+    iconLocation: Garagist.Fontawesome/Public/Icons
+    settingsLocation: Garagist.Fontawesome/Private/icons.yml

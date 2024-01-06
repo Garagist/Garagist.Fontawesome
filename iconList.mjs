@@ -1,7 +1,7 @@
 import fs from "fs";
 import YAML from "yaml";
 
-const file = fs.readFileSync("./Resources/Private/Icons/icons.yml", "utf8");
+const file = fs.readFileSync("./Resources/Private/icons.yml", "utf8");
 const icons = YAML.parse(file);
 const list = [];
 for (const key in icons) {

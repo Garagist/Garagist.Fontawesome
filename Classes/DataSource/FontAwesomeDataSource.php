@@ -13,8 +13,6 @@ class FontAwesomeDataSource extends AbstractDataSource
 {
     use LazyDataSourceTrait;
 
-
-
     /**
      * @var string
      */
@@ -85,8 +83,15 @@ class FontAwesomeDataSource extends AbstractDataSource
     {
         $this->options = [];
         $enabledStyles = $arguments['styles'] ?? self::STYLES;
+        $searchPreset = $arguments['searchPreset'] ?? null;
         $enableGroup = count($enabledStyles) > 1;
         $metadata = $this->iconService->getMetadata();
+
+        if ($searchPreset) {
+            $searchTerm = $searchTerm . ' ' . $searchPreset;
+        }
+        $searchTerms = array_filter(explode(' ', strtolower($searchTerm)));
+        $numSearchTerms = count($searchTerms);
 
         // First, we look if the text is in the label
         foreach ($metadata as $name => $data) {
@@ -95,11 +100,9 @@ class FontAwesomeDataSource extends AbstractDataSource
                     continue;
                 }
 
-                if (stripos($data['label'], $searchTerm) === false) {
-                    continue;
+                if ($this->filterByTerms($searchTerms, $numSearchTerms, $data['label'])) {
+                    $this->addOption($style, $name, $data, $enableGroup);
                 }
-
-                $this->addOption($style, $name, $data, $enableGroup);
             }
         }
 
@@ -111,20 +114,37 @@ class FontAwesomeDataSource extends AbstractDataSource
                 }
 
                 // Is the icon already in the list?
-                if (isset($options[$style . ':' . $name])) {
+                if (isset($this->options[$style . ':' . $name])) {
                     continue;
                 }
 
                 $haystack = implode(' ', $data['search']['terms']);
-                if (stripos($haystack, $searchTerm) === false) {
-                    continue;
+                if ($this->filterByTerms($searchTerms, $numSearchTerms, $haystack)) {
+                    $this->addOption($style, $name, $data, $enableGroup);
                 }
-
-                $this->addOption($style, $name, $data, $enableGroup);
             }
         }
 
         return $this->options;
+    }
+
+    /**
+     * Filter by search terms
+     *
+     * @param array $searchTerms
+     * @param integer $length
+     * @param string $haystack
+     * @return boolean
+     */
+    private function filterByTerms(array $searchTerms, int $length, string $haystack): bool
+    {
+        $foundIcons = 0;
+        foreach ($searchTerms as $value) {
+            if (stripos($haystack, $value) !== false) {
+                $foundIcons++;
+            }
+        }
+        return $foundIcons === $length;
     }
 
     /**
@@ -140,28 +160,14 @@ class FontAwesomeDataSource extends AbstractDataSource
         $value = $style . ':' . $name;
 
         // Is the icon already in the list?
-        if (isset($options[$value])) {
+        if (isset($this->options[$value])) {
             return;
         }
 
         $this->options[$value] = [
             'label' => $data['label'],
             'group' => $enableGroup ? ucfirst($style) : null,
-            'preview' => $this->previewSvg($style, $name),
+            'preview' => $this->iconService->path($style, $name),
         ];
-    }
-
-
-    /**
-     * Get svg for the preview
-     *
-     * @param string $style
-     * @param string $name
-     * @return void
-     */
-    private function previewSvg(string $style, string $name)
-    {
-        $markup = $this->iconService->file($style, $name);
-        return 'data:image/svg+xml;base64,' . base64_encode($markup);
     }
 }
