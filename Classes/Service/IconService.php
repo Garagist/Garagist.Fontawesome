@@ -78,7 +78,10 @@ class IconService
         preg_match('#^resource://([^/]+)/Public/(.*)#', $iconPath, $matches);
         $package = $matches[1];
         $path = $matches[2];
-        return $this->resourceManager->getPublicPackageResourceUri($package, $path);
+        return $this->resourceManager->getPublicPackageResourceUri(
+            $package,
+            $path
+        );
     }
 
     /**
@@ -117,7 +120,11 @@ class IconService
 
         // Try to get the icon with an alias name
         foreach ($icons as $key => $value) {
-            if (isset($value['aliases']) && isset($value['aliases']['names']) && in_array($alias, $value['aliases']['names'])) {
+            if (
+                isset($value['aliases']) &&
+                isset($value['aliases']['names']) &&
+                in_array($alias, $value['aliases']['names'])
+            ) {
                 return $key;
             }
         }
@@ -138,7 +145,12 @@ class IconService
         }
         $style = strtolower($style);
         $icon = strtolower($icon);
-        $iconPath = sprintf('resource://%s/%s/%s.svg', $this->iconLocation, $style, $icon);
+        $iconPath = sprintf(
+            'resource://%s/%s/%s.svg',
+            $this->iconLocation,
+            $style,
+            $icon
+        );
         if (!file_exists($iconPath)) {
             return null;
         }
@@ -152,8 +164,10 @@ class IconService
      * @param string|null $icon
      * @return string|null
      */
-    private function getIconContent(string $style, ?string $icon = null): ?string
-    {
+    private function getIconContent(
+        string $style,
+        ?string $icon = null
+    ): ?string {
         $iconPath = $this->resourcePath($style, $icon);
 
         if (!isset($iconPath)) {

@@ -42,7 +42,6 @@ class FontAwesomeDataSource extends AbstractDataSource
         'brands',
     ];
 
-
     /**
      * @var array
      */
@@ -54,8 +53,11 @@ class FontAwesomeDataSource extends AbstractDataSource
      * @param array $arguments
      * @return void
      */
-    protected function getDataForIdentifiers(array $identifiers, NodeInterface $node = null, array $arguments = [])
-    {
+    protected function getDataForIdentifiers(
+        array $identifiers,
+        NodeInterface $node = null,
+        array $arguments = []
+    ) {
         $this->options = [];
         $enabledStyles = $arguments['styles'] ?? self::STYLES;
         $enableGroup = count($enabledStyles) > 1;
@@ -79,8 +81,11 @@ class FontAwesomeDataSource extends AbstractDataSource
      * @param array $arguments
      * @return void
      */
-    protected function searchData(string $searchTerm, NodeInterface $node = null, array $arguments = [])
-    {
+    protected function searchData(
+        string $searchTerm,
+        NodeInterface $node = null,
+        array $arguments = []
+    ) {
         $this->options = [];
         $enabledStyles = $arguments['styles'] ?? self::STYLES;
         $searchPreset = $arguments['searchPreset'] ?? null;
@@ -100,7 +105,13 @@ class FontAwesomeDataSource extends AbstractDataSource
                     continue;
                 }
 
-                if ($this->filterByTerms($searchTerms, $numSearchTerms, $data['label'])) {
+                if (
+                    $this->filterByTerms(
+                        $searchTerms,
+                        $numSearchTerms,
+                        $data['label']
+                    )
+                ) {
                     $this->addOption($style, $name, $data, $enableGroup);
                 }
             }
@@ -119,7 +130,13 @@ class FontAwesomeDataSource extends AbstractDataSource
                 }
 
                 $haystack = implode(' ', $data['search']['terms']);
-                if ($this->filterByTerms($searchTerms, $numSearchTerms, $haystack)) {
+                if (
+                    $this->filterByTerms(
+                        $searchTerms,
+                        $numSearchTerms,
+                        $haystack
+                    )
+                ) {
                     $this->addOption($style, $name, $data, $enableGroup);
                 }
             }
@@ -136,8 +153,11 @@ class FontAwesomeDataSource extends AbstractDataSource
      * @param string $haystack
      * @return boolean
      */
-    private function filterByTerms(array $searchTerms, int $length, string $haystack): bool
-    {
+    private function filterByTerms(
+        array $searchTerms,
+        int $length,
+        string $haystack
+    ): bool {
         $foundIcons = 0;
         foreach ($searchTerms as $value) {
             if (stripos($haystack, $value) !== false) {
@@ -155,8 +175,12 @@ class FontAwesomeDataSource extends AbstractDataSource
      * @param boolean $enableGroup
      * @return void
      */
-    private function addOption(string $style, string $name, array $data, bool $enableGroup)
-    {
+    private function addOption(
+        string $style,
+        string $name,
+        array $data,
+        bool $enableGroup
+    ) {
         $value = $style . ':' . $name;
 
         // Is the icon already in the list?

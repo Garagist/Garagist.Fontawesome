@@ -37,7 +37,7 @@ const setting = YAML.stringify(
         collectionStyle: "block",
         indent: 2,
         lineWidth: 0,
-    }
+    },
 );
 
 fs.writeFileSync("./Configuration/Settings.ContentBox.yaml", setting);

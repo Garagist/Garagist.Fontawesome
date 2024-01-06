@@ -8,10 +8,12 @@
     "pipeline": "pnpm install; pnpm iconList && pnpm build"
   },
   "dependencies": {
+    "@prettier/plugin-php": "^0.22.1",
     "autoprefixer": "^10.4.16",
-    "cssnano": "^6.0.1",
-    "postcss": "^8.4.31",
-    "postcss-cli": "^10.1.0",
-    "yaml": "^2.3.2"
+    "cssnano": "^6.0.3",
+    "postcss": "^8.4.33",
+    "postcss-cli": "^11.0.0",
+    "prettier": "^3.1.1",
+    "yaml": "^2.3.4"
   }
 }
