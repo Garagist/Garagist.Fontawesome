@@ -30,22 +30,21 @@ class FontAwesomeDataSource extends AbstractDataSource
      */
     protected $userService;
 
-    const STYLES = [
-        'solid',
-        'regular',
-        'light',
-        'thin',
-        'sharp-solid',
-        'sharp-regular',
-        'sharp-light',
-        'duotone',
-        'brands',
-    ];
+    /**
+     * @Flow\InjectConfiguration(package="Garagist.Fontawesome", path="styles")
+     * @var string
+     */
+    protected $styles;
 
     /**
      * @var array
      */
     protected $options = [];
+
+    /**
+     * @var array
+     */
+    protected $enabledStyles = [];
 
     /**
      * @param array $identifiers
@@ -58,18 +57,11 @@ class FontAwesomeDataSource extends AbstractDataSource
         NodeInterface $node = null,
         array $arguments = []
     ) {
-        $this->options = [];
-        $enabledStyles = $arguments['styles'] ?? self::STYLES;
-        $enableGroup = count($enabledStyles) > 1;
         $metadata = $this->iconService->getMetadata();
+        $this->enabledStyles = $this->getEnabledStyles($arguments);
 
         foreach ($metadata as $name => $data) {
-            foreach ($data['styles'] as $style) {
-                if (!in_array($style, $enabledStyles)) {
-                    continue;
-                }
-                $this->addOption($style, $name, $data, $enableGroup);
-            }
+            $this->addDefaultAndSharpOptions($name, $data);
         }
 
         return $this->options;
@@ -86,63 +78,69 @@ class FontAwesomeDataSource extends AbstractDataSource
         NodeInterface $node = null,
         array $arguments = []
     ) {
-        $this->options = [];
-        $enabledStyles = $arguments['styles'] ?? self::STYLES;
-        $searchPreset = $arguments['searchPreset'] ?? null;
-        $enableGroup = count($enabledStyles) > 1;
         $metadata = $this->iconService->getMetadata();
-
+        $searchPreset = $arguments['searchPreset'] ?? null;
         if ($searchPreset) {
             $searchTerm = $searchTerm . ' ' . $searchPreset;
         }
         $searchTerms = array_filter(explode(' ', strtolower($searchTerm)));
         $numSearchTerms = count($searchTerms);
 
+        $this->enabledStyles = $this->getEnabledStyles($arguments);
+
         // First, we look if the text is in the label
         foreach ($metadata as $name => $data) {
-            foreach ($data['styles'] as $style) {
-                if (!in_array($style, $enabledStyles)) {
-                    continue;
-                }
-
-                if (
-                    $this->filterByTerms(
-                        $searchTerms,
-                        $numSearchTerms,
-                        $data['label']
-                    )
-                ) {
-                    $this->addOption($style, $name, $data, $enableGroup);
-                }
+            if (
+                $this->filterByTerms(
+                    $searchTerms,
+                    $numSearchTerms,
+                    $data['label']
+                )
+            ) {
+                $this->addDefaultAndSharpOptions($name, $data);
             }
         }
 
-        // New we look also into the search terms
+        // Now we look also into the search terms
         foreach ($metadata as $name => $data) {
-            foreach ($data['styles'] as $style) {
-                if (!in_array($style, $enabledStyles)) {
-                    continue;
-                }
-
-                // Is the icon already in the list?
-                if (isset($this->options[$style . ':' . $name])) {
-                    continue;
-                }
-
-                $haystack = implode(' ', $data['search']['terms']);
-                if (
-                    $this->filterByTerms(
-                        $searchTerms,
-                        $numSearchTerms,
-                        $haystack
-                    )
-                ) {
-                    $this->addOption($style, $name, $data, $enableGroup);
-                }
+            $haystack = implode(' ', $data['search']['terms']);
+            if (
+                $this->filterByTerms($searchTerms, $numSearchTerms, $haystack)
+            ) {
+                $this->addDefaultAndSharpOptions($name, $data);
             }
         }
 
         return $this->options;
+    }
+
+    /**
+     * Get enabled styles splited in default, sharp and groups
+     *
+     * @param array $arguments
+     * @return array
+     */
+    protected function getEnabledStyles(array $arguments): array
+    {
+        $defaultAndSharpStyles = $arguments['styles'] ?? $this->styles;
+        $enableGroup = count($defaultAndSharpStyles) > 1;
+        $enabledStyles = [
+            'default' => [],
+            'sharp' => [],
+            'groups' => [],
+        ];
+        foreach ($defaultAndSharpStyles as $style) {
+            $enabledStyles['groups'][$style] = $enableGroup
+                ? str_replace('-', ' ', ucwords($style, '-'))
+                : null;
+            if (str_starts_with($style, 'sharp-')) {
+                $key = str_replace('sharp-', '', $style);
+                $enabledStyles['sharp'][$key] = $style;
+                continue;
+            }
+            $enabledStyles['default'][$style] = $style;
+        }
+        return $enabledStyles;
     }
 
     /**
@@ -168,19 +166,45 @@ class FontAwesomeDataSource extends AbstractDataSource
     }
 
     /**
+     * Add options for the sharp and default icons to the options array
+     *
+     * @param string $name
+     * @param array $data
+     * @return void
+     */
+    private function addDefaultAndSharpOptions(string $name, array $data)
+    {
+        $label = $data['label'];
+        foreach ($data['styles'] as $style) {
+            // Check for default styles
+            if (array_key_exists($style, $this->enabledStyles['default'])) {
+                $this->addOption(false, $style, $name, $label);
+            }
+
+            // Check for sharp styles
+            if (array_key_exists($style, $this->enabledStyles['sharp'])) {
+                $this->addOption(true, $style, $name, $label);
+            }
+        }
+    }
+
+    /**
      * Add option to the options array
      *
      * @param string $style
      * @param string $name
-     * @param boolean $enableGroup
+     * @param array $data
      * @return void
      */
     private function addOption(
+        bool $sharp,
         string $style,
         string $name,
-        array $data,
-        bool $enableGroup
+        ?string $label = null
     ) {
+        if ($sharp) {
+            $style = 'sharp-' . $style;
+        }
         $value = $style . ':' . $name;
 
         // Is the icon already in the list?
@@ -189,8 +213,8 @@ class FontAwesomeDataSource extends AbstractDataSource
         }
 
         $this->options[$value] = [
-            'label' => $data['label'],
-            'group' => $enableGroup ? ucfirst($style) : null,
+            'label' => $label ?? $name,
+            'group' => $this->enabledStyles['groups'][$style],
             'preview' => $this->iconService->path($style, $name),
         ];
     }

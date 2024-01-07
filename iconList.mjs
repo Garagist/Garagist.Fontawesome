@@ -1,8 +1,21 @@
 import fs from "fs";
 import YAML from "yaml";
 
-const file = fs.readFileSync("./Resources/Private/icons.yml", "utf8");
-const icons = YAML.parse(file);
+const documentation =
+    "Add icon from [Fontawesome 6 Free](https://fontawesome.com/search)";
+
+const settingsFile = fs.readFileSync(
+    "Configuration/Settings.Garagist.yaml",
+    "utf8",
+);
+const { Garagist } = YAML.parse(settingsFile);
+const styles = Garagist.Fontawesome.styles.join(",");
+
+let settingsFileLocation = Garagist.Fontawesome.settingsLocation.split("/");
+settingsFileLocation[0] = "Resources";
+
+const iconFile = fs.readFileSync(settingsFileLocation.join("/"), "utf8");
+const icons = YAML.parse(iconFile);
 const list = [];
 for (const key in icons) {
     list.push(key);
@@ -18,10 +31,11 @@ const setting = YAML.stringify(
                             afx: {
                                 fusionObjects: {
                                     "Garagist.Fontawesome:Component.Icon": {
-                                        documentation:
-                                            "Add icon from [Fontawesome 6 Free](https://fontawesome.com/search)",
+                                        documentation,
                                         snippet:
-                                            '<Garagist.Fontawesome:Component.Icon style="${1|regular,solid,brands|}"${3: size="${4|2xs,xs,sm,lg,xl,2xl,1x,2x,3x,4x,5x,6x,7x,8x,9x,10x|}"} icon="${2|' +
+                                            '<Garagist.Fontawesome:Component.Icon style="${1|' +
+                                            styles +
+                                            '|}"${3: size="${4|2xs,xs,sm,lg,xl,2xl,1x,2x,3x,4x,5x,6x,7x,8x,9x,10x|}"} icon="${2|' +
                                             list.join(",") +
                                             '|}" />',
                                     },
@@ -40,6 +54,6 @@ const setting = YAML.stringify(
     },
 );
 
-fs.writeFileSync("./Configuration/Settings.ContentBox.yaml", setting);
+fs.writeFileSync("Configuration/Settings.ContentBox.yaml", setting);
 
 console.log(`\nWrote ${list.length} icons to ContentBox settings file.\n`);

@@ -2,3 +2,7 @@ Garagist:
   Fontawesome:
     iconLocation: Garagist.Fontawesome/Public/Icons
     settingsLocation: Garagist.Fontawesome/Private/icons.yml
+    styles:
+      - 'solid'
+      - 'regular'
+      - 'brands'
