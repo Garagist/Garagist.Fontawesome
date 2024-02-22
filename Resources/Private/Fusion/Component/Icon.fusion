@@ -79,6 +79,9 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
         }
     }
 
+    // If set it is rendered as tag, not via Augmenter
+    tagName = null
+
     styleAndIcon = null
     styleAndIcon.@process.split = ${value ? String.split(value, ':') : null}
 
@@ -140,51 +143,67 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
 
     @if.hasContent = ${this.content}
 
-    renderer = Neos.Fusion:Augmenter {
-        @apply {
-            attributes = ${props.attributes}
-            overwrite = Neos.Fusion:DataStructure {
-                title = ${props.title}
-                class = Neos.Fusion:DataStructure {
-                    class = ${Type.isArray(props.attributes.class) ? Array.join(Array.filter(props.attributes.class, item => !!item), ' ') : props.attributes.class}
-                    baseClass = ${'svg-inline--' + props.iconPrefix}
-                    size = ${props.size ? props.iconPrefix + '-' + props.size : null}
-                    fixedWidth = ${props.fixedWidth ? props.iconPrefix + '-fw' : null}
-                    pull = ${props.pull ? props.iconPrefix + '-pull-' + props.pull : null}
-                    border = ${props.border ? props.iconPrefix + '-border' : null}
-                    animation = ${props.animation ? props.iconPrefix + '-' + props.animation : null}
-                    inverse = ${props.inverse ? props.iconPrefix + '-inverse' : null}
-                    stackSize = ${props.stackSize ? props.iconPrefix + '-stack-' + props.stackSize + 'x' : null}
-                    swapOpacity = ${props.swapOpacity ? props.iconPrefix + '-swap-opacity' : null}
-                    @process.toString = ${Array.join(Array.filter(value, item => !!item), ' ')}
-                }
-                style = Neos.Fusion:Component {
-                    rotate = ${Type.isNumeric(props.rotate) ? 'rotate(' + props.rotate + 'deg)' : null}
-                    flip = ${props.flipProps[props.flip]}
-                    transform = ${[this.rotate, this.flip]}
-                    transform.@process.toString = ${Array.isEmpty(Array.filter(value, item => !!item)) ? null : 'transform:' + Array.join(value, ' ')}
-                    primaryOpacity = ${Type.isNumeric(props.primaryOpacity) ? '--fa-primary-opacity:' + props.primaryOpacity : null}
-                    secondaryOpacity = ${Type.isNumeric(props.secondaryOpacity) ? '--fa-secondary-opacity:' + props.secondaryOpacity : null}
-                    primaryColor = ${props.primaryColor ? '--fa-primary-color:' + props.primaryColor : null}
-                    secondaryColor = ${props.secondaryColor ? '--fa-secondary-color:' + props.secondaryColor : null}
-                    style = ${props.attributes.style}
+    renderer = Neos.Fusion:Component {
+        content = ${props.content}
+        tagName = ${props.tagName}
 
-                    renderer = Neos.Fusion:DataStructure {
-                        transform = ${props.transform}
-                        primaryOpacity= ${props.primaryOpacity}
-                        secondaryOpacity= ${props.secondaryOpacity}
-                        primaryColor= ${props.primaryColor}
-                        secondaryColor= ${props.secondaryColor}
-                        style = ${Type.isArray(props.style) ? Array.join(Array.filter(props.style, item => !!item), ';') : props.style}
-                        @process {
-                            filter = ${Array.filter(value, item => !!item)}
-                            toString = ${Array.isEmpty(value) ? null : Array.join(value, ';')}
-                            removeDoubleSemicolons = ${String.replace(value, ';;', ';')}
-                        }
+        overwriteAttributes = Neos.Fusion:DataStructure {
+            title = ${props.title}
+            class = Neos.Fusion:DataStructure {
+                class = ${props.attributes.class}
+                baseClass = ${'svg-inline--' + props.iconPrefix}
+                size = ${props.size ? props.iconPrefix + '-' + props.size : null}
+                fixedWidth = ${props.fixedWidth ? props.iconPrefix + '-fw' : null}
+                pull = ${props.pull ? props.iconPrefix + '-pull-' + props.pull : null}
+                border = ${props.border ? props.iconPrefix + '-border' : null}
+                animation = ${props.animation ? props.iconPrefix + '-' + props.animation : null}
+                inverse = ${props.inverse ? props.iconPrefix + '-inverse' : null}
+                stackSize = ${props.stackSize ? props.iconPrefix + '-stack-' + props.stackSize + 'x' : null}
+                swapOpacity = ${props.swapOpacity ? props.iconPrefix + '-swap-opacity' : null}
+                @process.toString = ${Carbon.String.merge(value)}
+            }
+            style = Neos.Fusion:Component {
+                @process.value = ${value ? value : null}
+                rotate = ${Type.isNumeric(props.rotate) ? 'rotate(' + props.rotate + 'deg)' : null}
+                flip = ${props.flipProps[props.flip]}
+                transform = ${[this.rotate, this.flip]}
+                transform.@process.toString = ${Array.isEmpty(Array.filter(value, item => !!item)) ? null : 'transform:' + Array.join(value, ' ')}
+                primaryOpacity = ${Type.isNumeric(props.primaryOpacity) ? '--fa-primary-opacity:' + props.primaryOpacity : null}
+                secondaryOpacity = ${Type.isNumeric(props.secondaryOpacity) ? '--fa-secondary-opacity:' + props.secondaryOpacity : null}
+                primaryColor = ${props.primaryColor ? '--fa-primary-color:' + props.primaryColor : null}
+                secondaryColor = ${props.secondaryColor ? '--fa-secondary-color:' + props.secondaryColor : null}
+                style = ${props.attributes.style}
+
+                renderer = Neos.Fusion:DataStructure {
+                    transform = ${props.transform}
+                    primaryOpacity= ${props.primaryOpacity}
+                    secondaryOpacity= ${props.secondaryOpacity}
+                    primaryColor= ${props.primaryColor}
+                    secondaryColor= ${props.secondaryColor}
+                    style = ${Type.isArray(props.style) ? Array.join(Array.filter(props.style, item => !!item), ';') : props.style}
+                    @process {
+                        filter = ${Array.filter(value, item => !!item)}
+                        toString = ${Array.isEmpty(value) ? null : Array.join(value, ';')}
+                        removeDoubleSemicolons = ${String.replace(value, ';;', ';')}
                     }
                 }
             }
         }
-        content = ${props.content}
+
+        attributes = ${Array.concat(props.attributes, this.overwriteAttributes)}
+
+        renderer = Neos.Fusion:Join {
+            tag = Neos.Fusion:Tag {
+                @if.set = ${props.tagName}
+                tagName = ${props.tagName}
+                attributes = ${props.attributes}
+                content = ${props.content}
+            }
+            augmenter = Neos.Fusion:Augmenter {
+                @if.set = ${!props.tagName}
+                content = ${props.content}
+                @apply.attributes = ${props.attributes}
+            }
+        }
     }
 }
