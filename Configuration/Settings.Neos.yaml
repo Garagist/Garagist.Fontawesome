@@ -6,3 +6,8 @@ Neos:
   Fusion:
     defaultContext:
       Garagist.Fontawesome: 'Garagist\Fontawesome\EelHelper\IconHelper'
+  Flow:
+    mvc:
+      routes:
+        'Garagist.Fontawesome':
+          position: 'before Neos.Neos'

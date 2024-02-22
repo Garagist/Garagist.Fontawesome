@@ -27,6 +27,30 @@ class IconHelper implements ProtectedContextAwareInterface
     }
 
     /**
+     * Get the icon url
+     *
+     * @param string|null $style
+     * @param string|null $icon
+     * @return string|null
+     */
+    public function url(?string $style, ?string $icon): ?string
+    {
+        return $this->iconService->url($style, $icon);
+    }
+
+    /**
+     * Get the icon parts
+     *
+     * @param string|null $style
+     * @param string|null $icon
+     * @return string|null
+     */
+    public function parts(?string $style, ?string $icon): ?string
+    {
+        return $this->iconService->parts($style, $icon);
+    }
+
+    /**
      * Get list of icons
      *
      * @return array

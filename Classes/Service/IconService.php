@@ -40,6 +40,42 @@ class IconService
     protected $resourceManager;
 
     /**
+     * Get the icon url
+     *
+     * @param string|null $style
+     * @param string|null $icon
+     * @return string|null
+     */
+    public function url(?string $style, ?string $icon): ?string
+    {
+        $resourcePath = $this->getIconResource($style, $icon);
+        if (!isset($resourcePath)) {
+            return null;
+        }
+        return $this->resourceManager->getPublicPackageResourceUriByPath($resourcePath);
+    }
+
+    /**
+     * Get the icon parts
+     *
+     * @param string|null $style
+     * @param string|null $icon
+     * @return string|null
+     */
+    public function parts(?string $style, ?string $icon): ?string
+    {
+        $path = $this->getIconResourcePath($style, $icon);
+        if (!isset($path)) {
+            $icon = $this->getNameFromAlias($icon);
+            $path = $this->getIconResourcePath($style, $icon);
+        }
+        if (isset($path)) {
+            return sprintf('%s:%s', $style, $icon);
+        }
+        return null;
+    }
+
+    /**
      * Get the icon content
      *
      * @param string|null $style
@@ -48,16 +84,11 @@ class IconService
      */
     public function file(?string $style, ?string $icon): ?string
     {
-        if (!isset($style) || !isset($icon)) {
+        $resourcePath = $this->getIconResource($style, $icon);
+        if (!isset($resourcePath)) {
             return null;
         }
-        $style = strtolower($style);
-        $icon = strtolower($icon);
-        $content = $this->getIconContent($style, $icon);
-        if (isset($content)) {
-            return $content;
-        }
-        return $this->getIconContent($style, $this->getNameFromAlias($icon));
+        return $this->getIconContent($resourcePath);
     }
 
     /**
@@ -159,21 +190,53 @@ class IconService
     /**
      * Return the content of an icon
      *
+     * @param string $path
+     * @param string|null $icon
+     * @return string|null
+     */
+    private function getIconContent(string $path): ?string
+    {
+        // Get content of file and remove comment
+        return preg_replace('/<!--.*?-->/s', '', file_get_contents($path));
+    }
+
+    /**
+     * Return the resource path of an icon
+     *
+     * @param string|null $style
+     * @param string|null $icon
+     * @return string|null
+     */
+    public function getIconResource(?string $style, ?string $icon): ?string
+    {
+        if (!isset($style) || !isset($icon)) {
+            return null;
+        }
+        $style = strtolower($style);
+        $icon = strtolower($icon);
+        $iconPath = $this->getIconResourcePath($style, $icon);
+        if (isset($iconPath)) {
+            return $iconPath;
+        }
+        return $this->getIconResourcePath($style, $this->getNameFromAlias($icon));
+    }
+
+    /**
+     * Return the resource path of an icon
+     *
      * @param string $style
      * @param string|null $icon
      * @return string|null
      */
-    private function getIconContent(
-        string $style,
-        ?string $icon = null
-    ): ?string {
-        $iconPath = $this->resourcePath($style, $icon);
-
-        if (!isset($iconPath)) {
+    private function getIconResourcePath(string $style, ?string $icon = null): ?string
+    {
+        if (!isset($icon)) {
             return null;
         }
-
-        // Get content of file and remove comment
-        return preg_replace('/<!--.*?-->/s', '', file_get_contents($iconPath));
+        $resourcePath = sprintf('resource://%s/%s/%s.svg', $this->iconLocation, $style, $icon);
+        if (!file_exists($resourcePath)) {
+            return null;
+        }
+        return $resourcePath;
     }
 }
