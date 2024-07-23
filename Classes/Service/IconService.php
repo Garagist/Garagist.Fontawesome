@@ -52,7 +52,9 @@ class IconService
         if (!isset($resourcePath)) {
             return null;
         }
-        return $this->resourceManager->getPublicPackageResourceUriByPath($resourcePath);
+        return $this->resourceManager->getPublicPackageResourceUriByPath(
+            $resourcePath
+        );
     }
 
     /**
@@ -218,7 +220,10 @@ class IconService
         if (isset($iconPath)) {
             return $iconPath;
         }
-        return $this->getIconResourcePath($style, $this->getNameFromAlias($icon));
+        return $this->getIconResourcePath(
+            $style,
+            $this->getNameFromAlias($icon)
+        );
     }
 
     /**
@@ -228,12 +233,19 @@ class IconService
      * @param string|null $icon
      * @return string|null
      */
-    private function getIconResourcePath(string $style, ?string $icon = null): ?string
-    {
+    private function getIconResourcePath(
+        string $style,
+        ?string $icon = null
+    ): ?string {
         if (!isset($icon)) {
             return null;
         }
-        $resourcePath = sprintf('resource://%s/%s/%s.svg', $this->iconLocation, $style, $icon);
+        $resourcePath = sprintf(
+            'resource://%s/%s/%s.svg',
+            $this->iconLocation,
+            $style,
+            $icon
+        );
         if (!file_exists($resourcePath)) {
             return null;
         }
