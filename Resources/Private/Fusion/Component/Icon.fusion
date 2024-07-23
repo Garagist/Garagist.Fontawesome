@@ -1,6 +1,6 @@
 prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component) {
     @propTypes {
-        style = ${PropTypes.oneOf(['brands', 'duotone', 'sharp-light', 'light', 'sharp-regular', 'regular', 'sharp-solid', 'solid', 'thin', 'sharp-thin']).isRequired}
+        style = ${PropTypes.oneOf(['brands', 'sharp-duotone-solid', 'duotone', 'sharp-light', 'light', 'sharp-regular', 'regular', 'sharp-solid', 'solid', 'sharp-thin', 'thin']).isRequired}
         icon = ${PropTypes.string.isRequired}
         title = ${PropTypes.string}
 
@@ -115,11 +115,11 @@ prototype(Garagist.Fontawesome:Component.Icon) < prototype(Neos.Fusion:Component
     primaryColor = ${null}
     secondaryColor = ${null}
     // Set options only for duotone icons
-    swapOpacity.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
-    primaryOpacity.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
-    secondaryOpacity.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
-    primaryColor.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
-    secondaryColor.@process.onlyForDuotoneIcons = ${this.style == 'duotone' ? value : null}
+    swapOpacity.@process.onlyForDuotoneIcons = ${this.style == 'duotone' || this.style == 'sharp-duotone-solid' ? value : null}
+    primaryOpacity.@process.onlyForDuotoneIcons = ${this.style == 'duotone' || this.style == 'sharp-duotone-solid' ? value : null}
+    secondaryOpacity.@process.onlyForDuotoneIcons = ${this.style == 'duotone' || this.style == 'sharp-duotone-solid' ? value : null}
+    primaryColor.@process.onlyForDuotoneIcons = ${this.style == 'duotone' || this.style == 'sharp-duotone-solid' ? value : null}
+    secondaryColor.@process.onlyForDuotoneIcons = ${this.style == 'duotone' || this.style == 'sharp-duotone-solid' ? value : null}
 
     attributes = Neos.Fusion:DataStructure {
         aria-hidden = 'true'
