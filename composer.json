@@ -4,9 +4,9 @@
     "type": "neos-plugin",
     "license": "GPL-3.0-or-later",
     "require": {
-        "php": "^8.0",
-        "neos/neos": "^7.3.0 || ^8.0.0 || ^9.0.0",
-        "carbon/eel": "^2.2.1",
+        "php": "^8.2",
+        "neos/neos": "^9.0.0",
+        "carbon/eel": "^2.22.0",
         "sandstorm/lazydatasource" : "^3.0.0"
     },
     "suggest": {
