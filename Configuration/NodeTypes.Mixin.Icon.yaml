@@ -19,3 +19,23 @@
           editorOptions:
             dataSourceIdentifier: garagist-fontawesome
             dataSourceMakeNodeIndependent: true
+            # You can enable just certain styles like this:
+            # dataSourceAdditionalData:
+            #   styles:
+            #     - 'solid'
+            #     - 'regular'
+            #     - 'light'
+            #     - 'thin'
+            #     - 'duotone'
+            #     - 'sharp-solid'
+            #     - 'sharp-regular'
+            #     - 'sharp-light'
+            #     - 'sharp-thin'
+            #     - 'sharp-duotone-solid'
+            #     - 'brands'
+            #
+            # If you want to preset a search (e.g. to only show icons who match the term "down"), you can do it like this:
+            # Seperate multiple search terms with a space to search for multiple terms at once.
+            # dataSourceAdditionalData:
+            #   searchPreset: 'down'
+
