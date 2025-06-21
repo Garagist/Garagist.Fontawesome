@@ -2,7 +2,6 @@
 
 namespace Garagist\Fontawesome\DataSource;
 
-use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\Flow\Annotations as Flow;
 use Garagist\Fontawesome\Service\IconService;
 use Neos\Neos\Service\DataSource\AbstractDataSource;
@@ -48,13 +47,13 @@ class FontAwesomeDataSource extends AbstractDataSource
 
     /**
      * @param array $identifiers
-     * @param NodeInterface|null $node
+     * @param \Neos\ContentRepository\Core\Projection\ContentGraph\Node|null $node
      * @param array $arguments
      * @return void
      */
     protected function getDataForIdentifiers(
         array $identifiers,
-        NodeInterface $node = null,
+        \Neos\ContentRepository\Core\Projection\ContentGraph\Node $node = null,
         array $arguments = []
     ) {
         $metadata = $this->iconService->getMetadata();
@@ -69,13 +68,13 @@ class FontAwesomeDataSource extends AbstractDataSource
 
     /**
      * @param string $searchTerm
-     * @param NodeInterface|null $node
+     * @param \Neos\ContentRepository\Core\Projection\ContentGraph\Node|null $node
      * @param array $arguments
      * @return void
      */
     protected function searchData(
         string $searchTerm,
-        NodeInterface $node = null,
+        \Neos\ContentRepository\Core\Projection\ContentGraph\Node $node = null,
         array $arguments = []
     ) {
         $metadata = $this->iconService->getMetadata();
