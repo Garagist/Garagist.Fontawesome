@@ -3,6 +3,6 @@ Garagist:
     iconLocation: Garagist.Fontawesome/Public/Icons
     settingsLocation: Garagist.Fontawesome/Private/icons.yml
     styles:
-      - 'solid'
-      - 'regular'
-      - 'brands'
+      - solid
+      - regular
+      - brands
