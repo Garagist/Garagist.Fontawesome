@@ -38,4 +38,3 @@
             # Seperate multiple search terms with a space to search for multiple terms at once.
             # dataSourceAdditionalData:
             #   searchPreset: 'down'
-
