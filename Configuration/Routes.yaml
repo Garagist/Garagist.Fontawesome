@@ -1,9 +1,7 @@
--
-  name: 'Icon Route'
+- name: 'Icon Route'
   uriPattern: 'garagist/fontawesome/{style}/{icon}.svg'
   defaults:
-    '@package': Garagist.Fontawesome
-    '@controller': Icon
-    '@action': index
-  httpMethods:
-    - GET
+    '@package': 'Garagist.Fontawesome'
+    '@controller': 'Icon'
+    '@action': 'index'
+  httpMethods: ['GET']
