@@ -15,7 +15,7 @@
         reloadIfChanged: true
         inspector:
           group: icons
-          editor: Sandstorm.LazyDataSource/Inspector/Editors/DataSourceSelectEditor
+          editor: 'Sandstorm.LazyDataSource/Inspector/Editors/DataSourceSelectEditor'
           editorOptions:
             dataSourceIdentifier: garagist-fontawesome
             dataSourceMakeNodeIndependent: true

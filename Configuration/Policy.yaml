@@ -1,5 +1,5 @@
 privilegeTargets:
-  Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege:
+  'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
     'Garagist.Fontawesome:Icon':
       matcher: 'method(public Garagist\Fontawesome\Controller\IconController->indexAction())'
 roles:
