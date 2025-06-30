@@ -4,10 +4,9 @@
     "type": "neos-plugin",
     "license": "GPL-3.0-or-later",
     "require": {
-        "php": "^8.2",
-        "neos/neos": "^9.0.0",
-        "carbon/eel": "^2.22.0",
-        "sandstorm/lazydatasource" : "^3.0.0"
+        "neos/neos": "^8.3 || ^9.0",
+        "carbon/eel": "^2.22",
+        "sandstorm/lazydatasource" : "^2.0 || ^3.0"
     },
     "suggest": {
         "packagefactory/atomicfusion-proptypes": "Validate the props passed to a component via @propType annotation"
